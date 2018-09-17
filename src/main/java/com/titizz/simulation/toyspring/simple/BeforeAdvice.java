@@ -11,14 +11,19 @@ public class BeforeAdvice implements Advice {
 
     private MethodInvocation methodInvocation;
 
-    public BeforeAdvice(Object bean, MethodInvocation methodInvocation) {
+    private MethodInvocation afterInvovation;
+
+    public BeforeAdvice(Object bean, MethodInvocation methodInvocation,MethodInvocation afterInvovation) {
         this.bean = bean;
         this.methodInvocation = methodInvocation;
+        this.afterInvovation = afterInvovation;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         methodInvocation.invoke();
-        return method.invoke(bean, args);
+        method.invoke(bean, args);
+        afterInvovation.invoke();
+        return null;
     }
 }
